@@ -5,6 +5,7 @@ const app = express();
 const bodyparser = require('body-parser');
 
 require('./src/service/redis/redis-cli');
+require('./src/service/milvus/config')
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(require('./src/router/index'))

@@ -4,7 +4,8 @@
   "description": "search video by  image .",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,9 @@
   },
   "homepage": "https://github.com/long2k/searching-video#readme",
   "dependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
     "@zilliz/milvus2-sdk-node": "^2.0.2",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.0",
