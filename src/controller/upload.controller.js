@@ -2,10 +2,8 @@ const Minio = require('../service/minio/index');
 require('dotenv').config();
 const { transFPS, LBP_Feature } = require('../helper/parse');
 import { v4 as uuidv4 } from 'uuid';
-const parse = require('../helper/parse');
-const fs = require('fs');
 const path = require('path');
-const redisClient = require('../service/redis/redis-cli')
+const redisClient = require('../service/redis/redis-cli');
 
 module.exports = async (req, res) => {
     try {
@@ -31,16 +29,20 @@ module.exports = async (req, res) => {
             }
             let frames = await transFPS(file.path);
             if(frames.length){
-                frames.forEach(async (filename) => {
+                 frames.forEach(async (filename,index) => {
                     try {
                         let imgPath = path.resolve(`./${filename}`);
                         let data = await LBP_Feature(imgPath);
-                         console.log(data)
+                        if(data) {
+                            redisClient.set(upload.fn, data);
+                        }
                     } catch (error){
                         console.log(error);
                     }
                 });
+                 
             }
+            return res.status(200).json({msg: "Save Successfully!"})
         })
     } catch (error) {
         console.log(error);

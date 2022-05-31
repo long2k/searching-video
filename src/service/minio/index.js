@@ -28,7 +28,6 @@ const putItem = (bucket, fn, stream) => {
             if (err) {
                console.log(err);
             } else {
-                console.log(objInfo);
                 return resolve(objInfo);
             }
         }

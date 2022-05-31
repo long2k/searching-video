@@ -1,7 +1,8 @@
 const ffmpeg = require('ffmpeg');
 const uuid = require('uuid');
 const { spawn } = require('child_process');
-
+require('dotenv').config()
+const path = require('path');
 
 const transFPS = async (filepath) => {
     return new Promise((resolve, reject) => {
@@ -9,10 +10,12 @@ const transFPS = async (filepath) => {
         process.then(video => {
             video.fnExtractFrameToJPG('./img', {
                 frame_rate: 1,
-                number: 50,
+                // size:(256, 256),
+                number: 10,
                 keep_pixel_aspect_ratio: true,
                 keep_aspect_ratio: true,
-                file_name: uuid.v4() + 'vd'
+                file_name: uuid.v4() + 'vd',
+                
             }, function (error, file) {
                 if (error) {
                     console.log(error);
@@ -30,12 +33,14 @@ const transFPS = async (filepath) => {
 
 const LBP_Feature = async (filepath) => {
     return new Promise((resolve, reject) => {
-        const pypro = spawn('python', ['../python/index.python', filepath]);
+        const pypro = spawn('python', [path.resolve(`./src/python/index.py`), filepath]);
         pypro.stdout.on("data", (data) => {
+            // console.log(data);
             resolve(data.toString());
         })
         pypro.stderr.on('data', (data) => {
-            reject(data);
+            console.log(`LBP lỗi : ${data}`)
+            reject(null);
         })
     })
 }
