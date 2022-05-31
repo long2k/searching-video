@@ -1,17 +1,20 @@
 const redis = require('redis');
-
-const client = redis.createClient({
-    host: 'localhost',
+require('dotenv').config();
+const redisClient = redis.createClient({
+    host: "localhost",
     port: 6379,
     password: ''
 });
 
-client.on('connect', function(){
-    console.log('Connected.. ');
+redisClient.on('error', err => {
+    console.log('Error ' + err)
 })
-client.on('error', err=>{
-    console.log('Error '+err)
-})
+
+redisClient.connect()
+    .then(res => { console.log("Connect to Redis") })
+    .catch(err => console.log(err))
+
+module.exports = redisClient;
 
 
 

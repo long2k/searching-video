@@ -1,13 +1,13 @@
 const express = require('express');
 require('dotenv').config();
-const path = require('path');
 const app = express();
 const bodyparser = require('body-parser');
 
-require('./src/service/redis/redis-cli');
-require('./src/service/milvus/config')
+
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended: true}));
+require('./src/service/redis/redis-cli');
+
 app.use(require('./src/router/index'))
 
 app.listen(process.env.PORT, ()=>{
