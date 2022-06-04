@@ -4,6 +4,7 @@ require('dotenv').config();
 const multer = require('multer');
 const upload = multer({dest:'./tmp'});
 
-Router.post('/upload', upload.array('file', 12), require('../controller/upload.controller'));
+Router.post('/upload', upload.single('file'), require('../controller/upload.controller'));
+Router.post('/search', upload.single('file'), require('../controller/search.controller'))
 
 module.exports = Router;

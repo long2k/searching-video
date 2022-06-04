@@ -1,3 +1,4 @@
+const { SchemaFieldTypes } = require('redis');
 const redis = require('redis');
 require('dotenv').config();
 const redisClient = redis.createClient({
@@ -7,13 +8,14 @@ const redisClient = redis.createClient({
 });
 
 redisClient.on('error', err => {
-    console.log('Error ' + err)
+    console.log('Error ' + err) 
+    
 })
 
 redisClient.connect()
     .then(res => { console.log("Connect to Redis") })
     .catch(err => console.log(err))
-
+    
 module.exports = redisClient;
 
 
