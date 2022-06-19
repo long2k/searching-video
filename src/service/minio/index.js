@@ -1,12 +1,11 @@
 const minioClient = require('./minio-cli');
-
+const fs = require('fs');
 
 const makeBucket = (bucket) => {
     return new Promise((resolve, reject) => {
         minioClient.makeBucket(bucket, (err) => {
-            console.log(bucket, err);
-            if (err) return resolve(null);
-            return resolve(bucket);
+            if (err.code != 'BucketAlreadyOwnedByYou') resolve(null);
+			else resolve(bucket);
         })
     })
 }
@@ -22,17 +21,15 @@ const checkBucket = (bucket) => {
     })
 }
 
-const putItem = (bucket, fn, stream) => {
+const putItem = (bucket, fn, fp) => {
     return new Promise((resolve, reject) => {
-        minioClient.putObject(bucket, fn, stream, (err, objInfo) => {
-            if (err) {
-               console.log(err);
-            } else {
-                return resolve(objInfo);
-            }
-        }
-        )
-    })
+		if (!fs.existsSync(fp)) return resolve(null);
+		let meta = {'Content-Type': 'application/octet-stream'};
+		minioClient.fPutObject(bucket, fn, fp, meta, (err, etag) => {
+			if (err) return resolve(null);
+			return resolve(fn);
+		});
+	});
 }
 
 const getItem = (bucket, fn) => {
