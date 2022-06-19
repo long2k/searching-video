@@ -24,7 +24,7 @@ def create_flat_index():
             "TYPE": "FLOAT32",
             "DIM": 256,  # Số chiều của vector
             "DISTANCE_METRIC": 'L2',  # Sử dụng khoảng cách Euclid để so sánh sự tương đồng
-            "INITIAL_CAP": 100,  # Option số lượng vector cần lưu trữ
+            "INITIAL_CAP": 510,  # Option số lượng vector cần lưu trữ
             "BLOCK_SIZE": 100
         }),
     ])

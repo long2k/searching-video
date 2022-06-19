@@ -44,7 +44,7 @@ def create_flat_index():
 
 def check(vector):
     q = Query(f'*=>[KNN 3 @vector $vec_param AS vector_score]').sort_by('vector_score').return_fields(
-        "vector_score", "filename").dialect(2)
+        "vector_score", "url").dialect(2)
     params_dict = {"vec_param": vector}
     results = connectDB().ft().search(q, query_params=params_dict)
     return results
